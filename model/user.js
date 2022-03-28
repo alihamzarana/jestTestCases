@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const userWalletSchema = mongoose.Schema({
+const bcrypt = require("bcryptjs");
+
+const userSchema = mongoose.Schema({
 
     email: {
         type: String,
@@ -16,18 +18,25 @@ const userWalletSchema = mongoose.Schema({
     },
     name: {
         type: String,
-         required: true
+        required: true
     },
     password: {
         type: String,
-         required: true,
-         minlength: '6'
+        required: true,
+        minlength: '6'
     },
+    
 },{
     timestamps: true,
 });
+userSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  console.log("user about to be created", this);
+  next();
+});
 
-const User = module.exports = mongoose.model('User', userWalletSchema);
+const User = module.exports = mongoose.model('User', userSchema);
 module.exports.get = function (callback, limit) {
     User.find(callback).limit(limit); 
  }

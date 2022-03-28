@@ -138,7 +138,7 @@ const User = require('../model/user');
         password: '123456',
   })
   .expect(201);
-        console.log("response is", res._body.user._id)
+       console.log("response is", res._body.user._id)
        const response = await supertest(app)
       .get(`/api/user/${res._body.user._id}`)
       .expect(201);
@@ -216,6 +216,7 @@ const User = require('../model/user');
         const response = await supertest(app)
           .put(`/api/user/${userId}`)
           .send({
+
               name: 'Ali Hamza',
               email: 'hamza@gmail.com',
               password: '1234567',

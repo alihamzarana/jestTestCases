@@ -1,17 +1,16 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
-const userRoute=  require('./route/userRoute');
-const cardRoute=  require('./route/cardRoute');
-const listRoute=  require('./route/listRoute');
+const userRoute =  require('./route/userRoute');
+const cardRoute =  require('./route/cardRoute');
+const listRoute =  require('./route/listRoute');
 
 
 mongoose.connect(
   'mongodb://localhost/testcases', 
-
 );
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -31,4 +30,6 @@ app.listen(port, (err, res) => {
   }
   console.log(`server is running on port : ${port}`);
 });
+
+
 module.exports = app;
