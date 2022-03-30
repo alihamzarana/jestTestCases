@@ -1,7 +1,7 @@
 const User1 = [
 { 
  fname: "Amir", 
- lname: "Mustafa", 
+ lname: "Mustafa", 
  email: "amir@gmail.com", 
  gender: "Male" 
 },

@@ -68,11 +68,7 @@ try {
       }
       checkEmail(req.body.email)
 
-      const newUser = await User.create({
-      email: req.body.email,
-      name: req.body.name,
-      password: req.body.password,
-      });
+      const newUser = await User.create({ ...req.body});
       return res.status(201).json({
       success: true,
       message: 'User created successfully',
@@ -89,8 +85,18 @@ try {
 
 const getAllUser =  async (req, res) => {
 try {
-    const allUser = await User.find({})
-      // console.log('allUser',allUser)
+    let queryObj = {
+      ...req.query
+    }
+
+    if(queryObj.minAge || queryObj.maxAge){
+      queryObj = {age: { $gt: +queryObj.minAge || 17, $lt: +queryObj.maxAge || 96 }, likes: { $in: [queryObj] }}
+      delete queryObj.minAge;
+      delete queryObj.maxAge;
+      delete queryObj.likes;
+    }
+    
+    const allUser = await User.find({ ...queryObj}).select({});
       if (!allUser.length) {
       return res.status(404).json({
       success: false,
@@ -114,6 +120,7 @@ try {
 const getUser =  async (req, res) => {
 try {
     const user = await User.findOne({_id: req.params.id})
+   
     console.log('allUser',user)
       if (!user) {
       return res.status(404).json({
@@ -213,7 +220,7 @@ try {
       message: err.message || 'something went wrong',
       });
   }
-} 
+}
 
 
 module.exports = {

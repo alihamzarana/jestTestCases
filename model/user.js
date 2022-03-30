@@ -25,6 +25,12 @@ const userSchema = mongoose.Schema({
         required: true,
         minlength: '6'
     },
+    age: {
+        type: Number
+    },
+    likes: {
+        type: Array
+    }
     
 },{
     timestamps: true,
